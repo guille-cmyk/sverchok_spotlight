@@ -29,6 +29,7 @@ spotlight_menu_config = [
         ]},
         {"Fixtures": [
             'SvSpotlightFixtureDefNode',
+            'SvSpotlightFixtureImportNode',
             'SvSpotlightInstrumentArrayNode',
         ]},
         {"Focus": [
@@ -82,6 +83,7 @@ class SV_MT_SpotlightFixturesMenu(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
         node_add_operator(layout, 'SvSpotlightFixtureDefNode', "Lighting Instrument Def (Presets)", icon='LIGHT')
+        node_add_operator(layout, 'SvSpotlightFixtureImportNode', "Fixture Profile Importer (OFL / GDTF / QLC+)", icon='IMPORT')
         node_add_operator(layout, 'SvSpotlightInstrumentArrayNode', "Instrument Array (3D Geometry)", icon='GROUP')
 
 
@@ -366,8 +368,9 @@ def reload_all_modules():
     importlib.reload(rigging)
 
     # Reload fixtures
-    from .nodes.fixtures import fixture_def, instrument_array
+    from .nodes.fixtures import fixture_def, fixture_import, instrument_array
     importlib.reload(fixture_def)
+    importlib.reload(fixture_import)
     importlib.reload(instrument_array)
     from .nodes import fixtures
     importlib.reload(fixtures)
@@ -433,16 +436,19 @@ def register():
         bpy.utils.register_class(cls)
 
     # 3. Append to Blender's standard Node Add menu and Header
-    bpy.types.NODE_MT_add.append(draw_spotlight_add_menu)
-    bpy.types.NODE_HT_header.append(draw_spotlight_header_menu)
+    if not bpy.app.background:
+        bpy.types.NODE_MT_add.append(draw_spotlight_add_menu)
+        bpy.types.NODE_HT_header.append(draw_spotlight_header_menu)
 
     # 4. Register into Sverchok's custom category menu system
     try:
         from sverchok.ui import nodeview_space_menu as sm
         menu = sm.get_add_node_menu()
         if menu:
-            menu.append_from_config(spotlight_menu_config)
-            menu.register()
+            categories = [getattr(c, 'name', '') for c in menu]
+            if "Spotlight" not in categories:
+                menu.append_from_config(spotlight_menu_config)
+                menu.register()
     except Exception as e:
         logger.warning("Sverchok category menu registration deferred: %s", e)
 

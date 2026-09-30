@@ -1,12 +1,14 @@
 # Fixture Profile and Library Definition Node for Sverchok Spotlight
 # Specifies photometric, electrical, mechanical, and light generator / emitter specs
 
+import os
 import bpy
 from bpy.props import FloatProperty, IntProperty, StringProperty, EnumProperty
 
 from sverchok.node_tree import SverchCustomTreeNode
 from sverchok.data_structure import updateNode
 from ...utils.presets import FIXTURE_PRESETS, PRESET_ENUM_ITEMS
+from ...utils.fixture_importer import load_fixture_profile
 
 def on_preset_change(self, context):
     preset = FIXTURE_PRESETS.get(self.preset_choice)
@@ -23,6 +25,26 @@ def on_preset_change(self, context):
         self.lens_diameter = preset.get("lens_diameter", 0.15)
     updateNode(self, context)
 
+def on_import_file_change(self, context):
+    path = bpy.path.abspath(self.import_filepath.strip())
+    if path and os.path.exists(path):
+        try:
+            prof = load_fixture_profile(path)
+            self.preset_choice = 'Custom'
+            self.fixture_name = prof.get("name", self.fixture_name)
+            self.fixture_type = prof.get("type", self.fixture_type)
+            self.beam_angle = prof.get("beam_angle", self.beam_angle)
+            self.field_angle = prof.get("field_angle", self.field_angle)
+            self.candela = prof.get("candela", self.candela)
+            self.weight_kg = prof.get("weight_kg", self.weight_kg)
+            self.wattage = prof.get("wattage", self.wattage)
+            self.dmx_footprint = prof.get("dmx_footprint", self.dmx_footprint)
+            self.emitter_offset = prof.get("emitter_offset", self.emitter_offset)
+            self.lens_diameter = prof.get("lens_diameter", self.lens_diameter)
+        except Exception as e:
+            print("Failed to import profile into FixtureDef:", e)
+    updateNode(self, context)
+
 class SvSpotlightFixtureDefNode(SverchCustomTreeNode, bpy.types.Node):
     """Lighting Instrument Specification and Photometric Definition"""
     bl_idname = 'SvSpotlightFixtureDefNode'
@@ -34,6 +56,14 @@ class SvSpotlightFixtureDefNode(SverchCustomTreeNode, bpy.types.Node):
         items=PRESET_ENUM_ITEMS,
         default="Robe Robin MegaPointe",
         update=on_preset_change
+    )
+
+    import_filepath: StringProperty(
+        name="Import Profile",
+        description="Optional: Load fixture from OFL JSON, GDTF, or QLC+ file",
+        subtype='FILE_PATH',
+        default="",
+        update=on_import_file_change
     )
 
     fixture_name: StringProperty(name="Name", default="Robe Robin MegaPointe", update=updateNode)
@@ -80,6 +110,7 @@ class SvSpotlightFixtureDefNode(SverchCustomTreeNode, bpy.types.Node):
 
     def draw_buttons(self, context, layout):
         layout.prop(self, "preset_choice", text="")
+        layout.prop(self, "import_filepath", text="Load")
         box = layout.box()
         box.prop(self, "fixture_name", text="Model")
         box.prop(self, "purpose")

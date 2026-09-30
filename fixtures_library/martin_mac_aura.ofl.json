@@ -1,0 +1,99 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/schemas/fixture.json",
+  "name": "MAC Aura",
+  "shortName": "MAC Aura",
+  "categories": ["Moving Head", "Color Changer"],
+  "meta": {
+    "authors": ["Martin Professional", "Open Fixture Library"],
+    "createDate": "2024-01-10",
+    "lastModifyDate": "2024-05-15"
+  },
+  "physical": {
+    "dimensions": [302, 390, 302],
+    "weight": 5.6,
+    "power": 260.0,
+    "DMXconnector": "5-pin",
+    "lens": {
+      "name": "Zoom Lens",
+      "degreesMinMax": [11.0, 58.0]
+    },
+    "bulb": {
+      "type": "LED Array RGBW",
+      "lumens": 3850,
+      "colorTemperature": 6500
+    },
+    "focus": {
+      "type": "Head",
+      "panMax": 540,
+      "tiltMax": 232
+    }
+  },
+  "availableChannels": {
+    "Shutter": {"defaultValue": 255, "type": "Shutter"},
+    "Dimmer": {"defaultValue": 0, "type": "Intensity"},
+    "Pan": {"defaultValue": 128, "type": "Pan"},
+    "Pan fine": {"defaultValue": 0, "type": "PanFine"},
+    "Tilt": {"defaultValue": 128, "type": "Tilt"},
+    "Tilt fine": {"defaultValue": 0, "type": "TiltFine"},
+    "Fixture Control": {"defaultValue": 0, "type": "Maintenance"},
+    "Beam Red": {"defaultValue": 255, "type": "ColorIntensity", "color": "Red"},
+    "Beam Green": {"defaultValue": 255, "type": "ColorIntensity", "color": "Green"},
+    "Beam Blue": {"defaultValue": 255, "type": "ColorIntensity", "color": "Blue"},
+    "Beam White": {"defaultValue": 255, "type": "ColorIntensity", "color": "White"},
+    "Beam Color Wheel": {"defaultValue": 0, "type": "ColorWheel"},
+    "Zoom": {"defaultValue": 128, "type": "Zoom"}
+  },
+  "modes": [
+    {
+      "name": "Standard (14ch)",
+      "shortName": "14ch",
+      "channels": [
+        "Shutter",
+        "Dimmer",
+        "Pan",
+        "Pan fine",
+        "Tilt",
+        "Tilt fine",
+        "Fixture Control",
+        "Beam Red",
+        "Beam Green",
+        "Beam Blue",
+        "Beam White",
+        "Beam Color Wheel",
+        "Beam CTC",
+        "Zoom"
+      ]
+    },
+    {
+      "name": "Extended (25ch)",
+      "shortName": "25ch",
+      "channels": [
+        "Shutter",
+        "Dimmer",
+        "Pan",
+        "Pan fine",
+        "Tilt",
+        "Tilt fine",
+        "Fixture Control",
+        "Beam Red",
+        "Beam Green",
+        "Beam Blue",
+        "Beam White",
+        "Beam Color Wheel",
+        "Beam CTC",
+        "Zoom",
+        "Aura Shutter",
+        "Aura Dimmer",
+        "Aura Red",
+        "Aura Green",
+        "Aura Blue",
+        "Aura Color Wheel",
+        "Aura CTC",
+        "Beam FX",
+        "Beam FX Speed",
+        "Aura FX",
+        "Aura FX Speed"
+      ]
+    }
+  ]
+}

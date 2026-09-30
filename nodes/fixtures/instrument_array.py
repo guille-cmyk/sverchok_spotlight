@@ -165,25 +165,48 @@ class SvSpotlightInstrumentArrayNode(SverchCustomTreeNode, bpy.types.Node):
 
     def process(self):
         outputs = self.outputs
-        if not any(o.is_linked for o in outputs):
-            return
 
-        hang_matrices = self.inputs['Hang Matrices'].sv_get(default=[[Matrix.Identity(4)]])[0]
+        hang_matrices = [Matrix.Identity(4)]
+        if 'Hang Matrices' in self.inputs:
+            try:
+                hang_matrices = self.inputs['Hang Matrices'].sv_get(default=[[Matrix.Identity(4)]])[0]
+            except Exception:
+                pass
 
         aimed_in = []
-        if 'Aimed Matrices' in self.inputs and self.inputs['Aimed Matrices'].is_linked:
-            aimed_in = self.inputs['Aimed Matrices'].sv_get(default=[[]])[0]
+        if 'Aimed Matrices' in self.inputs:
+            try:
+                aimed_in = self.inputs['Aimed Matrices'].sv_get(default=[[]])[0]
+            except Exception:
+                pass
 
         pans_in = []
-        if 'Pan (deg)' in self.inputs and self.inputs['Pan (deg)'].is_linked:
-            pans_in = self.inputs['Pan (deg)'].sv_get(default=[[]])[0]
+        if 'Pan (deg)' in self.inputs:
+            try:
+                pans_in = self.inputs['Pan (deg)'].sv_get(default=[[]])[0]
+            except Exception:
+                pass
 
         tilts_in = []
-        if 'Tilt (deg)' in self.inputs and self.inputs['Tilt (deg)'].is_linked:
-            tilts_in = self.inputs['Tilt (deg)'].sv_get(default=[[]])[0]
+        if 'Tilt (deg)' in self.inputs:
+            try:
+                tilts_in = self.inputs['Tilt (deg)'].sv_get(default=[[]])[0]
+            except Exception:
+                pass
 
-        profiles = self.inputs['Fixture Profile'].sv_get(default=[[{}]])[0]
-        pos_data = self.inputs['Position Data'].sv_get(default=[[]])[0]
+        profiles = [{}]
+        if 'Fixture Profile' in self.inputs:
+            try:
+                profiles = self.inputs['Fixture Profile'].sv_get(default=[[{}]])[0]
+            except Exception:
+                pass
+
+        pos_data = []
+        if 'Position Data' in self.inputs:
+            try:
+                pos_data = self.inputs['Position Data'].sv_get(default=[[]])[0]
+            except Exception:
+                pass
 
         profile = profiles[0] if profiles else {}
 

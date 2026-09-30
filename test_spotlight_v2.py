@@ -45,11 +45,12 @@ def run_tests():
     assert "Spotlight" in categories, f"'Spotlight' missing from Sverchok categories: {categories}"
     print("[PASS] Spotlight category verified in Sverchok Add menu.")
 
-    # 3. Instantiate all 14 nodes
+    # 3. Instantiate all 15 nodes
     node_types = [
         'SvSpotlightTrussNode',
         'SvSpotlightHangPositionNode',
         'SvSpotlightFixtureDefNode',
+        'SvSpotlightFixtureImportNode',
         'SvSpotlightInstrumentArrayNode',
         'SvSpotlightFocusAimNode',
         'SvSpotlightPhotometricsNode',
@@ -374,6 +375,66 @@ def run_tests():
         assert len(b_obj.data.materials) > 0, f"Beam object {b_obj.name} has no material assigned"
         assert b_obj.data.materials[0].name.startswith("Test_Spotlight_Beam"), f"Unexpected material {b_obj.data.materials[0].name}"
     print(f"[PASS] Beam Material: Successfully created {len(mat_names[0])} materials with emission & transparency and assigned to 3D beam objects.")
+
+    # 8. Test Fixture Library Import (OFL JSON, GDTF, QLC+ QXF)
+    print("\n--- Testing Fixture Library Import (OFL JSON, GDTF, QLC+ QXF) ---")
+    addon_dir = os.path.dirname(os.path.abspath(__file__))
+    lib_dir = os.path.join(addon_dir, "fixtures_library")
+    
+    n_import = tree.nodes.new(type='SvSpotlightFixtureImportNode')
+    assert n_import is not None, "Failed to instantiate SvSpotlightFixtureImportNode"
+
+    # Test 1: OFL JSON (Clay Paky Sharpy)
+    sharpy_path = os.path.join(lib_dir, "clay_paky_sharpy.ofl.json")
+    n_import.filepath = sharpy_path
+    n_import.reload_file()
+    n_import.process()
+    prof_sharpy = n_import.outputs['Fixture Profile'].sv_get()[0][0]
+    assert prof_sharpy['name'] == "Sharpy", f"Expected Sharpy, got {prof_sharpy['name']}"
+    assert prof_sharpy['beam_angle'] == 2.0, f"Expected 2.0 beam angle, got {prof_sharpy['beam_angle']}"
+    assert prof_sharpy['dmx_footprint'] == 16, f"Expected 16ch footprint, got {prof_sharpy['dmx_footprint']}"
+    assert len(prof_sharpy['modes']) == 3, f"Expected 3 modes, got {len(prof_sharpy['modes'])}"
+    print("[PASS] OFL JSON Import: Clay Paky Sharpy parsed with 3 modes and optical specs.")
+
+    # Test 2: OFL JSON with Mode Selection (Martin MAC Aura Extended 25ch)
+    aura_path = os.path.join(lib_dir, "martin_mac_aura.ofl.json")
+    n_import.filepath = aura_path
+    n_import.reload_file("Extended (25ch)")
+    n_import.process()
+    prof_aura = n_import.outputs['Fixture Profile'].sv_get()[0][0]
+    assert prof_aura['name'] == "MAC Aura", f"Expected MAC Aura, got {prof_aura['name']}"
+    assert prof_aura['dmx_footprint'] == 25, f"Expected 25 channels, got {prof_aura['dmx_footprint']}"
+    assert prof_aura['channel_map']['red'] == 8, f"Expected Red on ch8, got {prof_aura['channel_map']['red']}"
+    print("[PASS] OFL JSON Import: Martin MAC Aura with RGBW channel mapping & Extended mode.")
+
+    # Test 3: QLC+ XML (Robe Robin Pointe)
+    pointe_path = os.path.join(lib_dir, "robe_robin_pointe.qxf")
+    n_import.filepath = pointe_path
+    n_import.reload_file()
+    n_import.process()
+    prof_pointe = n_import.outputs['Fixture Profile'].sv_get()[0][0]
+    assert "Robin Pointe" in prof_pointe['name'], f"Expected Robin Pointe, got {prof_pointe['name']}"
+    assert prof_pointe['dmx_footprint'] == 20, f"Expected 20 channels, got {prof_pointe['dmx_footprint']}"
+    print("[PASS] QLC+ QXF Import: Robe Robin Pointe parsed successfully.")
+
+    # Test 4: GDTF Archive (Generic Moving Spot 350W)
+    gdtf_path = os.path.join(lib_dir, "generic_moving_spot.gdtf")
+    n_import.filepath = gdtf_path
+    n_import.reload_file()
+    n_import.process()
+    prof_gdtf = n_import.outputs['Fixture Profile'].sv_get()[0][0]
+    assert "Generic Moving Spot" in prof_gdtf['name'], f"Expected Generic Moving Spot, got {prof_gdtf['name']}"
+    assert prof_gdtf['beam_angle'] == 3.2, f"Expected 3.2 beam angle, got {prof_gdtf['beam_angle']}"
+    print("[PASS] GDTF Archive Import: DIN SPEC 15800 GDTF container parsed successfully.")
+
+    # Test 5: Pipeline Integration with Instrument Array
+    n_array.inputs['Fixture Profile'].sv_set(n_import.outputs['Fixture Profile'].sv_get())
+    n_array.process()
+    emitters = n_array.outputs['Emitter Points'].sv_get()[0]
+    assert len(emitters) == 4, f"Expected 4 emitter origins, got {len(emitters)}"
+    f_inst = n_array.outputs['Fixture Instances'].sv_get()[0][0]
+    assert f_inst['fixture_name'] == prof_gdtf['name'], f"Expected {prof_gdtf['name']}, got {f_inst['fixture_name']}"
+    print(f"[PASS] Fixture Import -> Instrument Array pipeline verified with 4 optical emitters ({f_inst['fixture_name']}).")
 
     # 9. Test Demo Rig Operator
     print("\n--- Testing Demo Rig Operator ---")

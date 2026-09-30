@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FixtureDefinition>
+<FixtureDefinition xmlns="http://www.qlcplus.org/FixtureDefinition">
+ <Creator>
+  <Name>Q Light Controller Plus</Name>
+  <Version>4.12.7</Version>
+  <Author>Sverchok Spotlight</Author>
+ </Creator>
+ <Manufacturer>Robe</Manufacturer>
+ <Model>Robin Pointe</Model>
+ <Type>Moving Head</Type>
+ <Channel Number="0" Name="Pan">
+  <Group Byte="0">Pan</Group>
+ </Channel>
+ <Channel Number="1" Name="Pan fine">
+  <Group Byte="1">Pan</Group>
+ </Channel>
+ <Channel Number="2" Name="Tilt">
+  <Group Byte="0">Tilt</Group>
+ </Channel>
+ <Channel Number="3" Name="Tilt fine">
+  <Group Byte="1">Tilt</Group>
+ </Channel>
+ <Channel Number="4" Name="Pan/Tilt speed"/>
+ <Channel Number="5" Name="Special functions"/>
+ <Channel Number="6" Name="Color wheel"/>
+ <Channel Number="7" Name="Static gobo wheel"/>
+ <Channel Number="8" Name="Rotating gobo wheel"/>
+ <Channel Number="9" Name="Gobo rotation"/>
+ <Channel Number="10" Name="Prism 1"/>
+ <Channel Number="11" Name="Prism 1 rotation"/>
+ <Channel Number="12" Name="Prism 2"/>
+ <Channel Number="13" Name="Prism 2 rotation"/>
+ <Channel Number="14" Name="Frost"/>
+ <Channel Number="15" Name="Zoom"/>
+ <Channel Number="16" Name="Focus"/>
+ <Channel Number="17" Name="Strobe/Shutter"/>
+ <Channel Number="18" Name="Dimmer">
+  <Group Byte="0">Intensity</Group>
+ </Channel>
+ <Channel Number="19" Name="Dimmer fine"/>
+ <Mode Name="Standard (20ch)">
+  <Channel Number="0">Pan</Channel>
+  <Channel Number="1">Pan fine</Channel>
+  <Channel Number="2">Tilt</Channel>
+  <Channel Number="3">Tilt fine</Channel>
+  <Channel Number="4">Pan/Tilt speed</Channel>
+  <Channel Number="5">Special functions</Channel>
+  <Channel Number="6">Color wheel</Channel>
+  <Channel Number="7">Static gobo wheel</Channel>
+  <Channel Number="8">Rotating gobo wheel</Channel>
+  <Channel Number="9">Gobo rotation</Channel>
+  <Channel Number="10">Prism 1</Channel>
+  <Channel Number="11">Prism 1 rotation</Channel>
+  <Channel Number="12">Prism 2</Channel>
+  <Channel Number="13">Prism 2 rotation</Channel>
+  <Channel Number="14">Frost</Channel>
+  <Channel Number="15">Zoom</Channel>
+  <Channel Number="16">Focus</Channel>
+  <Channel Number="17">Strobe/Shutter</Channel>
+  <Channel Number="18">Dimmer</Channel>
+  <Channel Number="19">Dimmer fine</Channel>
+ </Mode>
+ <Mode Name="Basic (16ch)">
+  <Channel Number="0">Pan</Channel>
+  <Channel Number="1">Tilt</Channel>
+  <Channel Number="2">Pan/Tilt speed</Channel>
+  <Channel Number="3">Special functions</Channel>
+  <Channel Number="4">Color wheel</Channel>
+  <Channel Number="5">Static gobo wheel</Channel>
+  <Channel Number="6">Rotating gobo wheel</Channel>
+  <Channel Number="7">Gobo rotation</Channel>
+  <Channel Number="8">Prism 1</Channel>
+  <Channel Number="9">Prism 1 rotation</Channel>
+  <Channel Number="10">Prism 2</Channel>
+  <Channel Number="11">Frost</Channel>
+  <Channel Number="12">Zoom</Channel>
+  <Channel Number="13">Focus</Channel>
+  <Channel Number="14">Strobe/Shutter</Channel>
+  <Channel Number="15">Dimmer</Channel>
+ </Mode>
+ <Physical>
+  <Bulb Type="Osram Sirius HRI 280W" Lumens="11000" ColourTemperature="7800"/>
+  <Dimensions Weight="15.0" Width="364" Height="575" Depth="250"/>
+  <Lens Name="Beam/Spot" DegreesMin="2.5" DegreesMax="20.0"/>
+  <Focus Type="Head" PanMax="540" TiltMax="270"/>
+  <Technical PowerConsumption="470" DmxConnector="3-pin and 5-pin"/>
+ </Physical>
+</FixtureDefinition>

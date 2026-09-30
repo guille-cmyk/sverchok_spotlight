@@ -13,7 +13,7 @@
 
 The **Sverchok Spotlight Suite** brings professional stage lighting CAD and media server workflows (equivalent to Vectorworks Spotlight, grandMA 3D, and real-time pixel mappers) directly into Blender's node-based visual programming environment.
 
-Built with **14 dedicated custom Sverchok nodes**, the suite eliminates fragile generic script nodes (`SNLite`) and provides a unified parametric pipeline from structural rigging to real-time DMX output.
+Built with **15 dedicated custom Sverchok nodes**, the suite eliminates fragile generic script nodes (`SNLite`) and provides a unified parametric pipeline from structural rigging to real-time DMX output.
 
 ---
 
@@ -26,8 +26,9 @@ Built with **14 dedicated custom Sverchok nodes**, the suite eliminates fragile 
         │
 [Stage 3: Focus & Aim]     SvSpotlightFocusAimNode (Trigonometric Pan/Tilt calculation & throw)
         │
-[Stage 4: Fixtures]        SvSpotlightFixtureDefNode + SvSpotlightInstrumentArrayNode
-        │                  (Articulated base/yoke/head, optical emitter ray apex)
+[Stage 4: Fixtures]        SvSpotlightFixtureDefNode / SvSpotlightFixtureImportNode
+        │                  (OFL JSON / GDTF / QLC+ QXF profiles + Instrument Array)
+        ▼                  SvSpotlightInstrumentArrayNode (Articulated base/yoke/head, optical emitter ray apex)
         │
 [Stage 5: Photometrics]    SvSpotlightPhotometricsNode
         │                  (Standards compliance 0/1 mask, foot-candle/lux & beam frustums)
@@ -52,6 +53,7 @@ Built with **14 dedicated custom Sverchok nodes**, the suite eliminates fragile 
 | **Rigging** | `SvSpotlightHangPositionNode` | Calculates clamp hang matrices along truss centerlines with spacing offsets and position labels. |
 | **Focus** | `SvSpotlightFocusAimNode` | Computes spherical aim vectors, pan (-180°..180°), tilt (-135°..135°), and throw distances. |
 | **Fixtures** | `SvSpotlightFixtureDefNode` | Parametric definitions with industry presets (Clay Paky Sharpy, Robe MegaPointe, Martin MAC Aura, ETC Source Four, etc.). |
+| **Fixtures** | `SvSpotlightFixtureImportNode` | Imports Open Fixture Library (OFL `.json`), General Device Type Format (`.gdtf` & `description.xml`), and QLC+ (`.qxf`) definitions with multi-mode channel mapping and optical specs. |
 | **Fixtures** | `SvSpotlightInstrumentArrayNode` | Generates 3-part articulated geometry (base, yoke, head) and calculates front-lens emitter origins. |
 | **Photometrics** | `SvSpotlightPhotometricsNode` | Inverse-square illuminance calculation with boolean compliance mask (0/1) against standards (Broadcast, Concert, Theatre). |
 | **Photometrics** | `SvSpotlightBeamMaterialNode` | Procedural emissive transparent beam shaders and 3D conical beam mesh generation. |
@@ -62,6 +64,22 @@ Built with **14 dedicated custom Sverchok nodes**, the suite eliminates fragile 
 | **DMX & Media** | `SvSpotlightPaperworkNode` | Generates industry-standard paperwork: Instrument Schedule, Channel Hookup, and Rig Summary CSVs. |
 | **Exchange** | `SvSpotlightMVRExportNode` | Exports My Virtual Rig (DIN SPEC 15800) container with `GeneralSceneDescription.xml`. |
 | **Exchange** | `SvSpotlightGrandMANode` | Generates grandMA2 and grandMA3 command-line scripts and XML setup macros. |
+
+---
+
+## Fixture Profile Library & Formats
+
+The suite includes direct import capability for professional lighting fixture profiles across all major industry standards:
+- **Open Fixture Library (OFL)** (`.json`): Optical beam/field angles, candela, physical dimensions, weight, and multi-mode channel mapping (Pan, Tilt, Dimmer, RGBW, Strobe).
+- **General Device Type Format (GDTF)** (`.gdtf` zip container & `description.xml`): Full DIN SPEC 15800 fixture profile definitions, DMX channels, and geometries.
+- **QLC+ Fixture Definition** (`.qxf`): XML fixture definitions with pan/tilt physical ranges, channel layouts, and bulb/photometric specs.
+- **Generic JSON Profiles**: Custom JSON profiles for architectural and custom entertainment luminaires.
+
+A sample library is included in `fixtures_library/`:
+- `clay_paky_sharpy.ofl.json` (Clay Paky Sharpy - 3 modes: Standard 16ch, Vector 20ch, Extended 20ch)
+- `martin_mac_aura.ofl.json` (Martin MAC Aura - Standard 14ch & Extended 25ch with full RGBW mapping)
+- `robe_robin_pointe.qxf` (Robe Robin Pointe - Mode 1 24ch, Mode 2 16ch, Mode 3 30ch)
+- `generic_moving_spot.gdtf` (Generic Moving Spot 350W - DIN SPEC 15800 container with optical lenses & DMX geometry)
 
 ---
 

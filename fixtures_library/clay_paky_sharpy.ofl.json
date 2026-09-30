@@ -1,0 +1,117 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/schemas/fixture.json",
+  "name": "Sharpy",
+  "shortName": "Sharpy",
+  "categories": ["Moving Head"],
+  "meta": {
+    "authors": ["Clay Paky", "Open Fixture Library"],
+    "createDate": "2024-01-15",
+    "lastModifyDate": "2024-06-20"
+  },
+  "physical": {
+    "dimensions": [405, 475, 330],
+    "weight": 19.0,
+    "power": 350.0,
+    "DMXconnector": "3-pin and 5-pin",
+    "lens": {
+      "name": "Beam Lens",
+      "degreesMinMax": [0.0, 3.8]
+    },
+    "bulb": {
+      "type": "Philips MSD Platinum 5R 189W",
+      "lumens": 7950,
+      "colorTemperature": 8000
+    },
+    "focus": {
+      "type": "Head",
+      "panMax": 540,
+      "tiltMax": 250
+    }
+  },
+  "availableChannels": {
+    "Color Wheel": {"defaultValue": 0, "type": "SingleColor"},
+    "Stop / Strobe": {"defaultValue": 255, "type": "Shutter"},
+    "Dimmer": {"defaultValue": 0, "type": "Intensity"},
+    "Gobo Wheel": {"defaultValue": 0, "type": "Gobo"},
+    "Prism Insertion": {"defaultValue": 0, "type": "Prism"},
+    "Prism Rotation": {"defaultValue": 0, "type": "PrismRotation"},
+    "Focus": {"defaultValue": 128, "type": "Focus"},
+    "Pan": {"defaultValue": 128, "type": "Pan"},
+    "Pan fine": {"defaultValue": 0, "type": "PanFine"},
+    "Tilt": {"defaultValue": 128, "type": "Tilt"},
+    "Tilt fine": {"defaultValue": 0, "type": "TiltFine"},
+    "Function": {"defaultValue": 0, "type": "Maintenance"},
+    "Reset": {"defaultValue": 0, "type": "Reset"},
+    "Lamp Control": {"defaultValue": 0, "type": "Maintenance"}
+  },
+  "modes": [
+    {
+      "name": "Standard (16ch)",
+      "shortName": "16ch",
+      "channels": [
+        "Color Wheel",
+        "Stop / Strobe",
+        "Dimmer",
+        "Gobo Wheel",
+        "Prism Insertion",
+        "Prism Rotation",
+        "Focus",
+        "Pan",
+        "Pan fine",
+        "Tilt",
+        "Tilt fine",
+        "Function",
+        "Reset",
+        "Lamp Control",
+        "Pan-Tilt Speed",
+        "Color Wheel Speed"
+      ]
+    },
+    {
+      "name": "Basic (14ch)",
+      "shortName": "14ch",
+      "channels": [
+        "Color Wheel",
+        "Stop / Strobe",
+        "Dimmer",
+        "Gobo Wheel",
+        "Prism Insertion",
+        "Prism Rotation",
+        "Focus",
+        "Pan",
+        "Tilt",
+        "Function",
+        "Reset",
+        "Lamp Control",
+        "Pan-Tilt Speed",
+        "Color Wheel Speed"
+      ]
+    },
+    {
+      "name": "Extended (20ch)",
+      "shortName": "20ch",
+      "channels": [
+        "Color Wheel",
+        "Stop / Strobe",
+        "Dimmer",
+        "Gobo Wheel",
+        "Prism Insertion",
+        "Prism Rotation",
+        "Focus",
+        "Pan",
+        "Pan fine",
+        "Tilt",
+        "Tilt fine",
+        "Function",
+        "Reset",
+        "Lamp Control",
+        "Pan-Tilt Speed",
+        "Color Wheel Speed",
+        "Dimmer Fine",
+        "Frost",
+        "Prism Fine",
+        "Macro"
+      ]
+    }
+  ]
+}

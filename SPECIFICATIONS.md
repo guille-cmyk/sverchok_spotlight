@@ -77,7 +77,7 @@ flowchart TD
 
 ---
 
-## 3. Node Catalog & Specifications (14 Custom Nodes)
+## 3. Node Catalog & Specifications (15 Custom Nodes)
 
 ### 3.1 Rigging Module (`nodes/rigging/`)
 
@@ -121,6 +121,7 @@ flowchart TD
 - **Icon**: `LIGHT` / `SV_LAMP`
 - **Properties**:
   - `preset_choice`: `EnumProperty` (`"Robe Robin MegaPointe"`, `"Clay Paky Sharpy"`, `"Martin MAC Aura"`, `"Chauvet Maverick MK3 Spot"`, `"Generic Profile"`, `"Generic LED Par"`, `"Custom"`)
+  - `import_filepath`: `StringProperty` (Load external OFL/GDTF/QXF file directly into def node)
   - `fixture_name`: `StringProperty`
   - `fixture_type`: `EnumProperty` (`['Moving Spot', 'Moving Wash', 'Moving Beam', 'Profile', 'Fresnel', 'LED Batten', 'Strobe']`)
   - `beam_angle`: `FloatProperty` (deg)
@@ -136,7 +137,23 @@ flowchart TD
   - Inputs: `Beam Angle`, `Field Angle`, `Candela`, `Wattage`, `Weight (kg)`, `Channels`, `Emitter Offset`, `Lens Diameter`
   - Outputs: `Fixture Profile`, `Beam Angle`, `Field Angle`, `Candela`, `Wattage`, `Weight (kg)`, `Channels`, `Emitter Offset`, `Lens Diameter`
 
-#### 4. `SvSpotlightInstrumentArrayNode`
+#### 4. `SvSpotlightFixtureImportNode` *(NEW)*
+- **Class**: `SvSpotlightFixtureImportNode` (`bpy.types.Node`, `SverchCustomTreeNode`)
+- **Icon**: `IMPORT` / `SV_IMPORT`
+- **Supported Formats**:
+  - **Open Fixture Library (OFL)**: `.json` (full optical data, dimensions, weight, multi-mode channel mapping)
+  - **General Device Type Format (GDTF)**: `.gdtf` (DIN SPEC 15800 zip container) & `description.xml`
+  - **QLC+ Fixture Definition**: `.qxf` (XML definitions with pan/tilt physical ranges & channel maps)
+  - **Generic Lighting JSON**: Custom fixtures
+- **Properties**:
+  - `filepath`: `StringProperty` (subtype `FILE_PATH`, with dynamic file browser)
+  - `active_mode`: `EnumProperty` (dynamically populated with fixture modes e.g., Standard, Extended, Vector)
+  - `fixture_label`: `StringProperty` (display manufacturer and model name)
+- **Sockets**:
+  - Inputs: `Filepath` (overrides property if connected)
+  - Outputs: `Fixture Profile`, `Beam Angle`, `Field Angle`, `Candela`, `Wattage`, `Weight (kg)`, `Channels`, `Pan Range (deg)`, `Tilt Range (deg)`, `Emitter Offset`, `Lens Diameter`, `Channel Map`
+
+#### 5. `SvSpotlightInstrumentArrayNode`
 - **Class**: `SvSpotlightInstrumentArrayNode` (`bpy.types.Node`, `SverchCustomTreeNode`)
 - **Icon**: `GROUP` / `SV_MESH_GEN`
 - **Properties**:
