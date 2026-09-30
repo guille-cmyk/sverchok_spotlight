@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Blender temporary files
+*.blend1
+*.blend2
+*.blend@
+*.blend@@
+*.crash.txt
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Testing / logs
+*.log
+.pytest_cache/
