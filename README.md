@@ -67,6 +67,27 @@ Built with **14 dedicated custom Sverchok nodes**, the suite eliminates fragile 
 
 ## Installation
 
+### Automated 1-Click Install (Recommended)
+
+The repository provides automated setup scripts that detect/install **Blender 4.2 LTS**, download and install **Sverchok v1.4.0+**, copy the **Spotlight** suite, and enable both addons in Blender's user preferences:
+
+* **Windows**:
+  Double-click `install.bat` or run from PowerShell / Command Prompt:
+  ```cmd
+  install.bat
+  ```
+
+* **Linux & macOS**:
+  Make executable and run `install.sh`:
+  ```bash
+  chmod +x install.sh
+  ./install.sh
+  ```
+
+---
+
+### Manual Installation
+
 1. Ensure **Blender 4.2+** and **Sverchok 1.4.0+** are installed and enabled.
 2. Clone or copy the `sverchok_spotlight` folder into your Blender addons directory:
    - **Windows**: `%APPDATA%\Blender Foundation\Blender\4.2\scripts\addons\sverchok_spotlight`
